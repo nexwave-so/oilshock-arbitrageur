@@ -141,7 +141,7 @@ export default function HackathonPresentation() {
               <span
                 className="font-bold"
                 style={{
-                  fontSize: "80px",
+                  fontSize: "120px",
                   color: "oklch(0.93 0.005 260)",
                   fontWeight: 700,
                   lineHeight: 1,
@@ -152,7 +152,7 @@ export default function HackathonPresentation() {
               <span
                 className="font-normal"
                 style={{
-                  fontSize: "80px",
+                  fontSize: "120px",
                   color: "oklch(0.78 0.12 75)",
                   fontWeight: 400,
                   lineHeight: 1,
@@ -172,7 +172,7 @@ export default function HackathonPresentation() {
               <p
                 style={{
                   fontFamily: "var(--font-geist-mono)",
-                  fontSize: "14px",
+                  fontSize: "20px",
                   color: "oklch(0.52 0.008 260)",
                 }}
               >
@@ -183,7 +183,7 @@ export default function HackathonPresentation() {
               className="absolute bottom-12 left-0 right-0 text-center"
               style={{
                 fontFamily: "var(--font-geist-mono)",
-                fontSize: "12px",
+                fontSize: "14px",
                 color: "oklch(0.52 0.008 260)",
                 opacity: 0.6,
               }}
@@ -207,7 +207,7 @@ export default function HackathonPresentation() {
               className="mb-20"
               style={{
                 fontFamily: "var(--font-geist-sans)",
-                fontSize: "36px",
+                fontSize: "52px",
                 fontWeight: 700,
                 color: "oklch(0.93 0.005 260)",
               }}
@@ -219,7 +219,7 @@ export default function HackathonPresentation() {
                 className={`stagger-1`}
                 style={{
                   fontFamily: "var(--font-geist-sans)",
-                  fontSize: "18px",
+                  fontSize: "28px",
                   color: "oklch(0.93 0.005 260)",
                 }}
               >
@@ -229,7 +229,7 @@ export default function HackathonPresentation() {
                 className={`stagger-2`}
                 style={{
                   fontFamily: "var(--font-geist-sans)",
-                  fontSize: "18px",
+                  fontSize: "28px",
                   color: "oklch(0.93 0.005 260)",
                 }}
               >
@@ -239,7 +239,7 @@ export default function HackathonPresentation() {
                 className={`stagger-3`}
                 style={{
                   fontFamily: "var(--font-geist-sans)",
-                  fontSize: "20px",
+                  fontSize: "32px",
                   color: "oklch(0.78 0.12 75)",
                 }}
               >
@@ -263,7 +263,7 @@ export default function HackathonPresentation() {
               className="mb-16"
               style={{
                 fontFamily: "var(--font-geist-sans)",
-                fontSize: "36px",
+                fontSize: "52px",
                 fontWeight: 700,
                 color: "oklch(0.93 0.005 260)",
               }}
@@ -284,14 +284,14 @@ export default function HackathonPresentation() {
                 { num: "04", text: "Execute trade on Solana" },
               ].map((step, idx) => (
                 <div key={idx}>
-                  <div className="flex items-baseline gap-6 py-3">
+                  <div className="flex items-baseline gap-6 py-4">
                     <span
                       style={{
                         fontFamily: "var(--font-geist-mono)",
-                        fontSize: "16px",
+                        fontSize: "24px",
                         fontWeight: 500,
                         color: "oklch(0.78 0.12 75)",
-                        minWidth: "32px",
+                        minWidth: "48px",
                       }}
                     >
                       {step.num}
@@ -299,7 +299,7 @@ export default function HackathonPresentation() {
                     <span
                       style={{
                         fontFamily: "var(--font-geist-sans)",
-                        fontSize: "16px",
+                        fontSize: "22px",
                         color: "oklch(0.93 0.005 260)",
                       }}
                     >
@@ -308,10 +308,10 @@ export default function HackathonPresentation() {
                   </div>
                   {idx < 3 && (
                     <div
-                      className="ml-4"
+                      className="ml-6"
                       style={{
                         width: "1px",
-                        height: "24px",
+                        height: "32px",
                         backgroundColor: "rgba(255, 255, 255, 0.1)",
                       }}
                     />
@@ -323,7 +323,7 @@ export default function HackathonPresentation() {
               className="mt-12"
               style={{
                 fontFamily: "var(--font-geist-mono)",
-                fontSize: "12px",
+                fontSize: "16px",
                 color: "oklch(0.62 0.14 180)",
               }}
             >
@@ -346,7 +346,7 @@ export default function HackathonPresentation() {
               className="mb-16"
               style={{
                 fontFamily: "var(--font-geist-sans)",
-                fontSize: "36px",
+                fontSize: "52px",
                 fontWeight: 700,
                 color: "oklch(0.93 0.005 260)",
               }}
@@ -354,10 +354,10 @@ export default function HackathonPresentation() {
               x402 in action
             </h2>
             <div
-              className="space-y-3"
+              className="space-y-4"
               style={{
                 fontFamily: "var(--font-geist-mono)",
-                fontSize: "13px",
+                fontSize: "18px",
               }}
             >
               <div className="flex justify-between gap-12">
@@ -457,7 +457,7 @@ export default function HackathonPresentation() {
               className="mb-16"
               style={{
                 fontFamily: "var(--font-geist-sans)",
-                fontSize: "36px",
+                fontSize: "52px",
                 fontWeight: 700,
                 color: "oklch(0.93 0.005 260)",
               }}
@@ -465,7 +465,7 @@ export default function HackathonPresentation() {
               Spending guardrails
             </h2>
             <div
-              className="space-y-3 mb-12"
+              className="space-y-4 mb-12"
               style={{
                 fontFamily: "var(--font-geist-mono)",
               }}
@@ -486,16 +486,16 @@ export default function HackathonPresentation() {
                   <span
                     className="uppercase"
                     style={{
-                      fontSize: "11px",
+                      fontSize: "14px",
                       color: "oklch(0.52 0.008 260)",
-                      minWidth: "140px",
+                      minWidth: "180px",
                     }}
                   >
                     {item.label}
                   </span>
                   <span
                     style={{
-                      fontSize: "14px",
+                      fontSize: "20px",
                       color: "oklch(0.93 0.005 260)",
                     }}
                   >
@@ -509,14 +509,14 @@ export default function HackathonPresentation() {
               <div
                 style={{
                   borderLeft: "4px solid oklch(0.62 0.14 180)",
-                  paddingLeft: "16px",
+                  paddingLeft: "20px",
                 }}
               >
                 <div
                   className="mb-3"
                   style={{
                     fontFamily: "var(--font-geist-mono)",
-                    fontSize: "12px",
+                    fontSize: "16px",
                     fontWeight: 500,
                     color: "oklch(0.62 0.14 180)",
                     letterSpacing: "0.05em",
@@ -528,7 +528,7 @@ export default function HackathonPresentation() {
                   className="mb-2"
                   style={{
                     fontFamily: "var(--font-geist-mono)",
-                    fontSize: "14px",
+                    fontSize: "18px",
                     color: "oklch(0.93 0.005 260)",
                   }}
                 >
@@ -537,7 +537,7 @@ export default function HackathonPresentation() {
                 <div
                   style={{
                     fontFamily: "var(--font-geist-mono)",
-                    fontSize: "12px",
+                    fontSize: "15px",
                     color: "oklch(0.52 0.008 260)",
                   }}
                 >
@@ -548,14 +548,14 @@ export default function HackathonPresentation() {
               <div
                 style={{
                   borderLeft: "4px solid oklch(0.58 0.16 25)",
-                  paddingLeft: "16px",
+                  paddingLeft: "20px",
                 }}
               >
                 <div
                   className="mb-3"
                   style={{
                     fontFamily: "var(--font-geist-mono)",
-                    fontSize: "12px",
+                    fontSize: "16px",
                     fontWeight: 500,
                     color: "oklch(0.58 0.16 25)",
                     letterSpacing: "0.05em",
@@ -567,7 +567,7 @@ export default function HackathonPresentation() {
                   className="mb-2"
                   style={{
                     fontFamily: "var(--font-geist-mono)",
-                    fontSize: "14px",
+                    fontSize: "18px",
                     color: "oklch(0.93 0.005 260)",
                   }}
                 >
@@ -576,7 +576,7 @@ export default function HackathonPresentation() {
                 <div
                   style={{
                     fontFamily: "var(--font-geist-mono)",
-                    fontSize: "12px",
+                    fontSize: "15px",
                     color: "oklch(0.52 0.008 260)",
                   }}
                 >
@@ -601,14 +601,14 @@ export default function HackathonPresentation() {
               className="mb-16"
               style={{
                 fontFamily: "var(--font-geist-sans)",
-                fontSize: "36px",
+                fontSize: "52px",
                 fontWeight: 700,
                 color: "oklch(0.93 0.005 260)",
               }}
             >
               Built with
             </h2>
-            <div className="grid grid-cols-2 gap-x-16 gap-y-8">
+            <div className="grid grid-cols-2 gap-x-16 gap-y-10">
               {[
                 {
                   name: "x402 Protocol",
@@ -642,7 +642,7 @@ export default function HackathonPresentation() {
                     className="mb-2"
                     style={{
                       fontFamily: "var(--font-geist-sans)",
-                      fontSize: "18px",
+                      fontSize: "24px",
                       fontWeight: 500,
                       color: "oklch(0.93 0.005 260)",
                     }}
@@ -652,7 +652,7 @@ export default function HackathonPresentation() {
                   <div
                     style={{
                       fontFamily: "var(--font-geist-mono)",
-                      fontSize: "12px",
+                      fontSize: "16px",
                       color: "oklch(0.52 0.008 260)",
                     }}
                   >
@@ -678,14 +678,14 @@ export default function HackathonPresentation() {
               className="mb-16"
               style={{
                 fontFamily: "var(--font-geist-sans)",
-                fontSize: "36px",
+                fontSize: "52px",
                 fontWeight: 700,
                 color: "oklch(0.93 0.005 260)",
               }}
             >
               Why this wins
             </h2>
-            <div className="space-y-10">
+            <div className="space-y-12">
               {[
                 {
                   num: "01",
@@ -703,14 +703,14 @@ export default function HackathonPresentation() {
                   desc: "OWS policy checks run before signing, not in the UI",
                 },
               ].map((point, idx) => (
-                <div key={idx} className="flex gap-6">
+                <div key={idx} className="flex gap-8">
                   <span
                     style={{
                       fontFamily: "var(--font-geist-mono)",
-                      fontSize: "16px",
+                      fontSize: "24px",
                       fontWeight: 500,
                       color: "oklch(0.78 0.12 75)",
-                      minWidth: "32px",
+                      minWidth: "48px",
                     }}
                   >
                     {point.num}
@@ -720,7 +720,7 @@ export default function HackathonPresentation() {
                       className="mb-2"
                       style={{
                         fontFamily: "var(--font-geist-sans)",
-                        fontSize: "18px",
+                        fontSize: "24px",
                         fontWeight: 500,
                         color: "oklch(0.93 0.005 260)",
                       }}
@@ -730,7 +730,7 @@ export default function HackathonPresentation() {
                     <div
                       style={{
                         fontFamily: "var(--font-geist-sans)",
-                        fontSize: "15px",
+                        fontSize: "20px",
                         color: "oklch(0.52 0.008 260)",
                       }}
                     >
@@ -757,7 +757,7 @@ export default function HackathonPresentation() {
               className="mb-12"
               style={{
                 fontFamily: "var(--font-geist-sans)",
-                fontSize: "36px",
+                fontSize: "52px",
                 fontWeight: 700,
                 color: "oklch(0.93 0.005 260)",
               }}
@@ -767,10 +767,10 @@ export default function HackathonPresentation() {
             <div className="mb-12">
               <Link
                 href="/"
-                className="inline-block px-6 py-3 rounded-lg"
+                className="inline-block px-8 py-4 rounded-lg"
                 style={{
                   fontFamily: "var(--font-geist-sans)",
-                  fontSize: "18px",
+                  fontSize: "24px",
                   fontWeight: 500,
                   color: "oklch(0.93 0.005 260)",
                   border: "1px solid rgba(255, 255, 255, 0.15)",
@@ -792,10 +792,10 @@ export default function HackathonPresentation() {
               </Link>
             </div>
             <div
-              className="space-y-2 mb-12"
+              className="space-y-3 mb-12"
               style={{
                 fontFamily: "var(--font-geist-mono)",
-                fontSize: "13px",
+                fontSize: "18px",
                 color: "oklch(0.52 0.008 260)",
               }}
             >
@@ -807,7 +807,7 @@ export default function HackathonPresentation() {
               className="absolute bottom-12 left-0 right-0 text-center"
               style={{
                 fontFamily: "var(--font-geist-mono)",
-                fontSize: "11px",
+                fontSize: "14px",
                 color: "oklch(0.52 0.008 260)",
                 opacity: 0.6,
               }}
@@ -822,7 +822,7 @@ export default function HackathonPresentation() {
           className="fixed bottom-6 right-6"
           style={{
             fontFamily: "var(--font-geist-mono)",
-            fontSize: "11px",
+            fontSize: "13px",
             color: "oklch(0.52 0.008 260)",
           }}
         >
@@ -836,7 +836,7 @@ export default function HackathonPresentation() {
           }`}
           style={{
             fontFamily: "var(--font-geist-mono)",
-            fontSize: "11px",
+            fontSize: "13px",
             color: "oklch(0.52 0.008 260)",
           }}
         >
