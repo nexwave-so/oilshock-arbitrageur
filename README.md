@@ -6,6 +6,14 @@ Built for the **Agent Wallet Hackathon** (6 hours). Forked from [`x402-ai-Solana
 
 ---
 
+## Links
+
+- **Nexwave Platform**: [https://nexwave.so/](https://nexwave.so/)
+- **x402 Signals API**: [https://nexwave.so/api/signals](https://nexwave.so/api/signals)
+- **Live Demo**: [https://oilshock-arbitrageur.vercel.app](https://oilshock-arbitrageur.vercel.app) *(if deployed)*
+
+---
+
 ## What it does
 
 1. **Pays for live data** — the agent wallet sends `$0.001 USDC` on Solana mainnet via x402 to `https://nexwave.so/api/signals` (energy perp signals: WTI, Brent Crude, Natural Gas — mark price, 24h change, volume, OI, funding rates).
@@ -78,7 +86,7 @@ Server ← 200 OK + signal data
 | Payments | x402 protocol · `x402-fetch` · `wrapFetchWithPayment` |
 | Chain | Solana mainnet (`solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp`) |
 | Asset | USDC (`EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v`) |
-| Data | Nexwave (`nexwave.so/api/signals`) — energy + crypto perp signals |
+| Data | [Nexwave](https://nexwave.so/) ([API](https://nexwave.so/api/signals)) — energy + crypto perp signals |
 | Facilitator | `https://facilitator.payai.network` |
 
 ---
