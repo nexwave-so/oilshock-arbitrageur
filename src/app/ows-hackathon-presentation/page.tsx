@@ -25,7 +25,7 @@ export default function HackathonPresentation() {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowHint(false), 3000);
+    const timer = setTimeout(() => setShowHint(false), 5000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -836,11 +836,15 @@ export default function HackathonPresentation() {
           }`}
           style={{
             fontFamily: "var(--font-geist-mono)",
-            fontSize: "13px",
+            fontSize: "14px",
             color: "oklch(0.52 0.008 260)",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
           }}
         >
-          ← →
+          <span style={{ fontSize: "16px" }}>← →</span>
+          <span>Use arrow keys to navigate</span>
         </div>
       </div>
     </>
