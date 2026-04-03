@@ -1,22 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getOrCreatePurchaserAccount, getSolanaNetwork } from "@/lib/solana-accounts";
-
-const SPENDING_POLICY = {
-  id: "oilshock-arbitrageur",
-  name: "Restricted Agent Spending",
-  rules: [
-    {
-      type: "allowed_chains",
-      chain_ids: ["solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"],
-    },
-    {
-      type: "spending_limits",
-      max_amount_usdc: "2.00",
-      period: "daily",
-    },
-  ],
-  action: "deny",
-};
+import { getPolicy, getDailySpend } from "@/lib/ows-policy";
 
 export async function GET(_request: NextRequest) {
   return NextResponse.json({
@@ -45,29 +29,20 @@ export async function POST(request: NextRequest) {
             {
               name: "fetch_nexwave_signals",
               description:
-                "Describes the Nexwave x402 signal endpoint. Returns the payment requirements and data schema for the energy perp signal feed (WTI, Brent Crude, Natural Gas). The live agent uses this endpoint with wrapFetchWithPayment, paying $0.001 USDC on Solana mainnet per call.",
-              inputSchema: {
-                type: "object",
-                properties: {},
-              },
+                "Describes the Nexwave x402 signal endpoint. Returns payment requirements and data schema for the energy perp signal feed (WTI, Brent Crude, Natural Gas). The live agent pays $0.001 USDC on Solana mainnet per call via wrapFetchWithPayment.",
+              inputSchema: { type: "object", properties: {} },
             },
             {
-              name: "get_spending_policy",
+              name: "get_agent_policy",
               description:
-                "Returns the OWS-style spending policy governing this agent. Defines allowed chains, daily USDC spending cap, and default deny action.",
-              inputSchema: {
-                type: "object",
-                properties: {},
-              },
+                "Returns the OWS spending policy governing this agent. Defines allowed chains, daily USDC spending cap ($2.00), and the deny action on violations.",
+              inputSchema: { type: "object", properties: {} },
             },
             {
-              name: "get_agent_wallet_info",
+              name: "get_agent_status",
               description:
-                "Returns the agent's Solana public key, network, and USDC asset address. The agent wallet holds mainnet USDC used for x402 micropayments.",
-              inputSchema: {
-                type: "object",
-                properties: {},
-              },
+                "Returns the agent's Solana wallet address, network, USDC asset, current daily spend, and remaining budget — sourced live from the OWS policy engine.",
+              inputSchema: { type: "object", properties: {} },
             },
           ],
         },
@@ -109,31 +84,39 @@ export async function POST(request: NextRequest) {
           };
           break;
 
-        case "get_spending_policy":
+        case "get_agent_policy": {
+          const policy = getPolicy();
           result = {
             content: [
               {
                 type: "text",
-                text: JSON.stringify(SPENDING_POLICY, null, 2),
+                text: JSON.stringify(policy, null, 2),
               },
             ],
           };
           break;
+        }
 
-        case "get_agent_wallet_info": {
+        case "get_agent_status": {
           const account = await getOrCreatePurchaserAccount();
           const network = getSolanaNetwork();
+          const policy = getPolicy();
+          const spent = getDailySpend();
           result = {
             content: [
               {
                 type: "text",
                 text: JSON.stringify(
                   {
-                    public_key: account.publicKey.toString(),
+                    wallet_public_key: account.publicKey.toString(),
                     network,
                     usdc_mint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-                    usdc_decimals: 6,
-                    note: "Fund this wallet with mainnet USDC. Each signal fetch costs 1000 base units ($0.001).",
+                    daily_spent_usdc: spent.toFixed(4),
+                    daily_limit_usdc: policy.rules.spending_limit_usdc.toFixed(2),
+                    remaining_usdc: (policy.rules.spending_limit_usdc - spent).toFixed(4),
+                    signals_purchased: Math.round(spent / 0.001),
+                    policy_id: policy.id,
+                    note: "Fund wallet with mainnet USDC. Each signal fetch costs 1000 base units ($0.001).",
                   },
                   null,
                   2
@@ -164,7 +147,7 @@ export async function POST(request: NextRequest) {
       id: body.id,
       error: { code: -32601, message: "Method not found" },
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json({
       jsonrpc: "2.0",
       id: null,

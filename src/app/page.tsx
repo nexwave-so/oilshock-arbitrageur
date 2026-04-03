@@ -55,7 +55,13 @@ const SUGGESTIONS = [
     icon: "⚡",
     label: "Run Full Trading Cycle",
     prompt:
-      "Run the full OilShock trading cycle: fetch live oil signals via x402, analyze the market with geopolitical context, then execute a trade.",
+      "Run the full OilShock trading cycle: check Kalshi prediction markets, fetch live oil signals via x402 (OWS policy check first), analyze the market with prediction market context, then execute a trade.",
+  },
+  {
+    icon: "📈",
+    label: "Check Kalshi Markets",
+    prompt:
+      "What prediction markets are available for oil and energy? Show me the current odds on WTI and Brent.",
   },
   {
     icon: "🔍",
@@ -64,10 +70,10 @@ const SUGGESTIONS = [
       "Fetch live oil and energy market signals from Nexwave via x402 payment. Show me the raw data.",
   },
   {
-    icon: "🧠",
-    label: "Analyze Current Market",
+    icon: "🛡️",
+    label: "Check Spending Status",
     prompt:
-      "Fetch the latest oil signals and analyze current market conditions. What's your directional call on WTI for the next 24 hours?",
+      "Check the current OWS policy spending status. How much of the $2.00 daily budget has been used?",
   },
 ];
 
@@ -83,7 +89,7 @@ export default function OilShockArbitrageur() {
     },
   });
 
-  // Count completed fetch_oil_signals calls to track spend.
+  // Count completed fetch_oil_signals calls to track spend locally.
   // AI SDK v5: inline tool parts use type "tool-<toolName>" and state "output-available".
   useEffect(() => {
     let count = 0;
@@ -99,6 +105,21 @@ export default function OilShockArbitrageur() {
     }
     setDailySpend(count * COST_PER_SIGNAL);
   }, [messages]);
+
+  // Sync spend from server after each completed agent turn.
+  // Server state is authoritative — it's incremented by the real policy engine.
+  useEffect(() => {
+    if (status === "ready" && messages.length > 0) {
+      fetch("/api/status")
+        .then((r) => r.json())
+        .then((data) => {
+          if (typeof data.daily_spent_usdc === "number") {
+            setDailySpend(data.daily_spent_usdc);
+          }
+        })
+        .catch(() => {/* non-fatal — local count is the fallback */});
+    }
+  }, [status, messages.length]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -194,10 +215,10 @@ export default function OilShockArbitrageur() {
         {/* Policy Block Demo */}
         <div className="rounded-lg border border-red-900/40 bg-red-950/10 p-4">
           <div className="text-red-400 text-xs font-semibold mb-2">
-            🧪 Demo: Policy Guard
+            🧪 Demo: OWS Policy Guard
           </div>
           <p className="text-slate-500 text-xs mb-3">
-            Simulate a $5.00 spend attempt — the policy should block it.
+            Simulate a $5.00 spend attempt. The server-side policy engine blocks it before any signing occurs.
           </p>
           <button
             onClick={handlePolicyTest}
