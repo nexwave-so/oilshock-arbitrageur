@@ -10,6 +10,7 @@ Built for the **Agent Wallet Hackathon** (6 hours). Forked from [`x402-ai-Solana
 
 - **Nexwave Platform**: [https://nexwave.so/](https://nexwave.so/)
 - **x402 Signals API**: [https://nexwave.so/api/signals](https://nexwave.so/api/signals)
+- **x402 Configuration**: [https://nexwave.so/.well-known/x402.json](https://nexwave.so/.well-known/x402.json)
 - **Live Demo**: [https://oilshock-arbitrageur.vercel.app](https://oilshock-arbitrageur.vercel.app) *(if deployed)*
 
 ---
