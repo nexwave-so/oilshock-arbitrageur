@@ -250,14 +250,14 @@ function renderRawOutput({
   if (parseResult.data.isError) {
     return {
       type: "error",
-      content: parseResult.data.content.map((item) => item.text).join(""),
+      content: parseResult.data.content?.map((item) => item.text).join("") || "Error occurred",
     };
   }
   return {
     type: "success",
     content: (
       <Response>
-        {parseResult.data.content.map((item) => item.text).join("")}
+        {parseResult.data.content?.map((item) => item.text).join("") || "No content"}
       </Response>
     ),
   };

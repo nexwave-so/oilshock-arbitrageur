@@ -12,7 +12,7 @@ import {
   PromptInputTextarea,
   PromptInputToolbar,
 } from "@/components/ai-elements/prompt-input";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useChat } from "@ai-sdk/react";
 import { Response } from "@/components/ai-elements/response";
 import {
@@ -78,6 +78,8 @@ export default function OilShockArbitrageur() {
   const [dailySpend, setDailySpend] = useState(0);
   const [policyBlockMsg, setPolicyBlockMsg] = useState<string | null>(null);
   const [policyTestMsg, setPolicyTestMsg] = useState<string | null>(null);
+  const prevSpendRef = useRef(0);
+  const fetchingRef = useRef(false);
 
   const { messages, sendMessage, status } = useChat({
     onError: (error) => {
@@ -87,7 +89,7 @@ export default function OilShockArbitrageur() {
 
   // Count completed fetch_oil_signals calls to track spend locally.
   // AI SDK v5: inline tool parts use type "tool-<toolName>" and state "output-available".
-  useEffect(() => {
+  const calculatedSpend = useMemo(() => {
     let count = 0;
     for (const msg of messages) {
       for (const part of msg.parts) {
@@ -99,13 +101,21 @@ export default function OilShockArbitrageur() {
         }
       }
     }
-    setDailySpend(count * COST_PER_SIGNAL);
+    return count * COST_PER_SIGNAL;
   }, [messages]);
+
+  useEffect(() => {
+    if (calculatedSpend !== prevSpendRef.current) {
+      prevSpendRef.current = calculatedSpend;
+      setDailySpend(calculatedSpend);
+    }
+  }, [calculatedSpend]);
 
   // Sync spend from server after each completed agent turn.
   // Server state is authoritative — it's incremented by the real policy engine.
   useEffect(() => {
-    if (status === "ready" && messages.length > 0) {
+    if (status === "ready" && messages.length > 0 && !fetchingRef.current) {
+      fetchingRef.current = true;
       fetch("/api/status")
         .then((r) => r.json())
         .then((data) => {
@@ -113,7 +123,10 @@ export default function OilShockArbitrageur() {
             setDailySpend(data.daily_spent_usdc);
           }
         })
-        .catch(() => {/* non-fatal — local count is the fallback */});
+        .catch(() => {/* non-fatal — local count is the fallback */})
+        .finally(() => {
+          fetchingRef.current = false;
+        });
     }
   }, [status, messages.length]);
 
