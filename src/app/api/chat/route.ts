@@ -1,9 +1,16 @@
 import { convertToModelMessages, generateText, stepCountIs, streamText, UIMessage } from "ai";
 import { tool } from "ai";
 import z from "zod";
-import { anthropic } from "@ai-sdk/anthropic";
+import { createOpenAI } from "@ai-sdk/openai";
 import { getOrCreatePurchaserAccount, createSolanaSigner, getSolanaNetwork } from "@/lib/solana-accounts";
 import { policyCheck, getDailySpend, getPolicy } from "@/lib/ows-policy";
+import { env } from "@/lib/env";
+
+// Configure OpenRouter
+const openrouter = createOpenAI({
+  apiKey: env.OPENROUTER_API_KEY,
+  baseURL: "https://openrouter.ai/api/v1",
+});
 
 export const maxDuration = 60;
 
@@ -18,7 +25,7 @@ export const POST = async (request: Request) => {
     const network = getSolanaNetwork();
 
     const result = streamText({
-      model: anthropic("claude-sonnet-4-6"),
+      model: openrouter("anthropic/claude-3.7-sonnet"),
       tools: {
         "fetch_oil_signals": tool({
           description:
@@ -95,7 +102,7 @@ export const POST = async (request: Request) => {
               : "";
 
             const { text } = await generateText({
-              model: anthropic("claude-sonnet-4-6"),
+              model: openrouter("anthropic/claude-3.7-sonnet"),
               system:
                 "You are a senior commodities analyst specializing in energy markets. " +
                 "Given live perp signals, prediction market odds, and geopolitical context, " +
@@ -290,7 +297,7 @@ Narrate each step clearly:
     return new Response(
       JSON.stringify({
         error: error instanceof Error ? error.message : "An error occurred",
-        hint: "Check ANTHROPIC_API_KEY and SOLANA_PRIVATE_KEY in .env.local",
+        hint: "Check OPENROUTER_API_KEY and SOLANA_PRIVATE_KEY in .env.local",
       }),
       {
         status: 500,

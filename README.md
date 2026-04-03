@@ -74,7 +74,7 @@ Server ← 200 OK + signal data
 | Layer | Tech |
 |---|---|
 | Frontend | Next.js 15, React 19, AI SDK v5 (`useChat`) |
-| AI | Claude Sonnet 4.6 via `@ai-sdk/anthropic` |
+| AI | Claude Sonnet 3.7 via OpenRouter (`@ai-sdk/openai`) |
 | Payments | x402 protocol · `x402-fetch` · `wrapFetchWithPayment` |
 | Chain | Solana mainnet (`solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp`) |
 | Asset | USDC (`EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v`) |
@@ -129,10 +129,11 @@ SOLANA_PRIVATE_KEY=<your-base64-private-key>
 
 # Mainnet — do not change
 SOLANA_NETWORK=solana
-SOLANA_RPC_URL=https://api.mainnet-beta.solana.com
+# Helius RPC (recommended for reliability)
+SOLANA_RPC_URL=https://mainnet.helius-rpc.com/?api-key=YOUR_HELIUS_API_KEY
 
-# Anthropic API key (Claude Sonnet)
-ANTHROPIC_API_KEY=<your-key>
+# OpenRouter API key (Claude Sonnet via OpenRouter)
+OPENROUTER_API_KEY=<your-key>
 ```
 
 ### 3. Fund the agent wallet

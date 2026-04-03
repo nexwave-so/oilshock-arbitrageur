@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
+const dmSans = DM_Sans({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "700"],
 });
 
-const geistMono = Geist_Mono({
+const jetbrainsMono = JetBrains_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -26,34 +28,29 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
+        className={`${dmSans.variable} ${jetbrainsMono.variable} antialiased h-full`}
       >
-        <div className="size-full flex flex-col bg-[#0a0a0f]">
-          <header className="border-b border-amber-900/40 bg-[#0d0d14]/90 backdrop-blur-sm">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex items-center justify-between py-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center shadow-lg shadow-amber-900/40">
-                    <span className="text-white font-bold text-lg">⚡</span>
-                  </div>
-                  <div>
-                    <div className="text-xl font-bold text-white tracking-tight">
-                      OilShock Arbitrageur
-                    </div>
-                    <div className="text-xs text-amber-500/80 font-mono">
-                      x402 · Solana mainnet · Agent Wallet
-                    </div>
-                  </div>
-                </div>
+        <div className="size-full flex flex-col">
+          <header className="border-b border-white/[0.06] h-[52px] flex items-center">
+            <div className="w-full px-6 flex items-center justify-between">
+              {/* Wordmark */}
+              <div className="flex items-center">
+                <span className="text-[17px] font-bold tracking-[-0.02em] text-white">
+                  OilShock
+                </span>
+                <span className="text-[17px] font-normal ml-1.5" style={{ color: 'oklch(0.78 0.12 75)' }}>
+                  Arbitrageur
+                </span>
+              </div>
 
-                <div className="hidden sm:flex items-center gap-3 text-xs text-slate-500">
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-                    Live on mainnet
-                  </span>
-                  <span className="text-slate-700">·</span>
-                  <span>Powered by Claude + x402</span>
-                </div>
+              {/* Status row */}
+              <div className="hidden sm:flex items-center gap-2.5 font-mono text-[11px]" style={{ color: 'oklch(0.52 0.008 260)' }}>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'oklch(0.62 0.14 180)' }} />
+                  <span>Mainnet</span>
+                </span>
+                <span className="opacity-40">|</span>
+                <span>x402</span>
               </div>
             </div>
           </header>

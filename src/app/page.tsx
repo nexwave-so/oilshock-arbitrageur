@@ -52,25 +52,21 @@ const SPENDING_POLICY = {
 
 const SUGGESTIONS = [
   {
-    icon: "⚡",
     label: "Run Full Trading Cycle",
     prompt:
       "Run the full OilShock trading cycle: check Kalshi prediction markets, fetch live oil signals via x402 (OWS policy check first), analyze the market with prediction market context, then execute a trade.",
   },
   {
-    icon: "📈",
     label: "Check Kalshi Markets",
     prompt:
       "What prediction markets are available for oil and energy? Show me the current odds on WTI and Brent.",
   },
   {
-    icon: "🔍",
     label: "Fetch Oil Signals Only",
     prompt:
       "Fetch live oil and energy market signals from Nexwave via x402 payment. Show me the raw data.",
   },
   {
-    icon: "🛡️",
     label: "Check Spending Status",
     prompt:
       "Check the current OWS policy spending status. How much of the $2.00 daily budget has been used?",
@@ -166,93 +162,101 @@ export default function OilShockArbitrageur() {
   return (
     <div className="h-full flex overflow-hidden">
       {/* ── Left: Policy Sidebar ── */}
-      <aside className="hidden lg:flex flex-col w-72 border-r border-amber-900/30 bg-[#0d0d14] p-4 gap-4 shrink-0">
+      <aside className="hidden lg:flex flex-col w-72 border-r shrink-0 p-6 gap-8" style={{ borderColor: 'oklch(0.22 0.01 260 / 30%)', backgroundColor: 'oklch(0.09 0.008 260)' }}>
         {/* Spending Policy Card */}
-        <div className="rounded-lg border border-amber-900/40 bg-amber-950/20 p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-amber-400 text-sm">🛡️</span>
-            <span className="text-amber-300 text-sm font-semibold">
-              OWS Spending Policy
-            </span>
+        <div className="space-y-3">
+          <div className="font-mono text-[10px] uppercase tracking-wider" style={{ color: 'oklch(0.52 0.008 260)' }}>
+            OWS Policy
           </div>
-          <div className="font-mono text-xs text-slate-400 bg-slate-900/60 rounded p-3 overflow-auto max-h-48">
-            <pre>{JSON.stringify(SPENDING_POLICY, null, 2)}</pre>
-          </div>
+          <dl className="space-y-2.5 font-mono text-[13px]">
+            <div className="flex justify-between">
+              <dt className="uppercase text-[10px]" style={{ color: 'oklch(0.52 0.008 260)' }}>POLICY</dt>
+              <dd className="text-white">{SPENDING_POLICY.id}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="uppercase text-[10px]" style={{ color: 'oklch(0.52 0.008 260)' }}>CHAIN</dt>
+              <dd className="text-white truncate ml-3" title="solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp">
+                solana:5eykt...Kvdp
+              </dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="uppercase text-[10px]" style={{ color: 'oklch(0.52 0.008 260)' }}>DAILY CAP</dt>
+              <dd className="text-white">$2.00 USDC</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="uppercase text-[10px]" style={{ color: 'oklch(0.52 0.008 260)' }}>ENFORCEMENT</dt>
+              <dd className="text-white">deny on violation</dd>
+            </div>
+          </dl>
         </div>
 
         {/* Daily Budget Meter */}
-        <div className="rounded-lg border border-slate-800 bg-slate-900/40 p-4">
-          <div className="text-slate-400 text-xs mb-2 font-mono">
+        <div className="space-y-3">
+          <div className="font-mono text-[10px] uppercase tracking-wider" style={{ color: 'oklch(0.52 0.008 260)' }}>
             Daily Budget
           </div>
-          <div className="flex items-end justify-between mb-2">
-            <span className="text-white text-lg font-bold font-mono">
+          <div className="flex items-baseline justify-between">
+            <span className="font-mono font-medium text-[28px] text-white">
               ${dailySpend.toFixed(3)}
             </span>
-            <span className="text-slate-500 text-xs font-mono">
-              / ${DAILY_LIMIT_USDC.toFixed(2)}
+            <span className="font-mono text-[12px]" style={{ color: 'oklch(0.52 0.008 260)' }}>
+              of ${DAILY_LIMIT_USDC.toFixed(2)}
             </span>
           </div>
-          <div className="w-full bg-slate-800 rounded-full h-2">
+          <div className="w-full rounded-full h-[3px]" style={{ backgroundColor: 'oklch(0.16 0.012 260)' }}>
             <div
-              className={`h-2 rounded-full transition-all duration-500 ${
-                spendPct > 80
-                  ? "bg-red-500"
+              className="h-[3px] rounded-full transition-all duration-500"
+              style={{
+                width: `${spendPct}%`,
+                backgroundColor: spendPct > 80
+                  ? 'oklch(0.58 0.16 25)'
                   : spendPct > 50
-                  ? "bg-amber-500"
-                  : "bg-green-500"
-              }`}
-              style={{ width: `${spendPct}%` }}
+                  ? 'oklch(0.78 0.12 75)'
+                  : 'oklch(0.62 0.14 180)'
+              }}
             />
           </div>
-          <div className="text-slate-600 text-xs mt-2 font-mono">
-            {Math.floor(dailySpend / COST_PER_SIGNAL)} signal
-            {Math.floor(dailySpend / COST_PER_SIGNAL) !== 1 ? "s" : ""} fetched
-            · $0.001 USDC each
+          <div className="font-mono text-[11px]" style={{ color: 'oklch(0.42 0.008 260)' }}>
+            {Math.floor(dailySpend / COST_PER_SIGNAL)} signals · $0.001 each
           </div>
         </div>
 
         {/* Policy Block Demo */}
-        <div className="rounded-lg border border-red-900/40 bg-red-950/10 p-4">
-          <div className="text-red-400 text-xs font-semibold mb-2">
-            🧪 Demo: OWS Policy Guard
-          </div>
-          <p className="text-slate-500 text-xs mb-3">
-            Simulate a $5.00 spend attempt. The server-side policy engine blocks it before any signing occurs.
-          </p>
+        <div className="space-y-3">
           <button
             onClick={handlePolicyTest}
-            className="w-full py-2 px-3 rounded border border-red-800/60 bg-red-900/20 text-red-400 text-xs font-mono hover:bg-red-900/40 transition-colors"
+            className="w-full py-2.5 px-3 rounded border font-mono text-[12px] transition-all duration-150"
+            style={{
+              borderColor: 'rgba(255, 255, 255, 0.08)',
+              borderStyle: 'dashed',
+              color: 'oklch(0.52 0.008 260)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderStyle = 'solid';
+              e.currentTarget.style.color = 'oklch(0.58 0.16 25)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderStyle = 'dashed';
+              e.currentTarget.style.color = 'oklch(0.52 0.008 260)';
+            }}
           >
-            Trigger Policy Block ($5.00)
+            Test $5.00 overspend
           </button>
           {policyTestMsg && (
-            <div className="mt-2 p-2 rounded bg-red-900/30 border border-red-700/50 text-red-300 text-xs font-mono">
+            <div className="p-3 font-mono text-[11px] text-white" style={{
+              borderLeft: '4px solid oklch(0.58 0.16 25)',
+              backgroundColor: 'oklch(0.10 0.008 260)'
+            }}>
               {policyTestMsg}
             </div>
           )}
         </div>
 
         {/* x402 Info */}
-        <div className="rounded-lg border border-slate-800 bg-slate-900/20 p-3 mt-auto">
-          <div className="text-slate-500 text-xs space-y-1 font-mono">
-            <div className="text-slate-400 font-semibold mb-1">x402 Config</div>
-            <div>
-              Endpoint:{" "}
-              <span className="text-amber-400/80">nexwave.so/api/signals</span>
-            </div>
-            <div>
-              Asset:{" "}
-              <span className="text-slate-300">USDC · Solana mainnet</span>
-            </div>
-            <div>
-              Cost: <span className="text-green-400">$0.001 / call</span>
-            </div>
-            <div>
-              Facilitator:{" "}
-              <span className="text-slate-300">payai.network</span>
-            </div>
-          </div>
+        <div className="mt-auto space-y-1 font-mono text-[11px]" style={{ color: 'oklch(0.42 0.008 260)' }}>
+          <div>nexwave.so/api/signals</div>
+          <div>USDC · Solana · $0.001/call</div>
+          <div>facilitator: payai.network</div>
         </div>
       </aside>
 
@@ -267,44 +271,14 @@ export default function OilShockArbitrageur() {
 
         {/* Empty state */}
         {messages.length === 0 && (
-          <div className="mb-6 text-center pt-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 border border-amber-500/20 rounded-full text-xs font-mono text-amber-400 mb-4">
-              <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-              x402 · Solana mainnet · Agent ready
-            </div>
-            <h1 className="text-3xl font-bold text-white mb-2">
-              OilShock Arbitrageur
+          <div className="mb-6 text-center pt-16">
+            <h1 className="font-bold text-[48px] leading-none tracking-[-0.03em] mb-1">
+              <div className="text-white">OilShock</div>
+              <div style={{ color: 'oklch(0.78 0.12 75)' }}>Arbitrageur</div>
             </h1>
-            <p className="text-slate-500 text-sm max-w-lg mx-auto mb-6">
-              Autonomous AI agent that pays for live oil signals via x402
-              micropayments, reasons about geopolitical data using Claude, and
-              executes prediction market trades — governed by a $2/day spending
-              policy.
+            <p className="text-[15px] mt-6 mb-8" style={{ color: 'oklch(0.52 0.008 260)' }}>
+              Autonomous energy market agent · x402 · OWS · Solana mainnet
             </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl mx-auto mb-6">
-              <div className="p-3 rounded-lg border border-amber-900/30 bg-amber-950/10 text-left">
-                <div className="text-amber-400 text-lg mb-1">💰</div>
-                <div className="text-white text-sm font-medium">x402 Payments</div>
-                <div className="text-slate-500 text-xs mt-0.5">
-                  $0.001 USDC per signal on Solana mainnet
-                </div>
-              </div>
-              <div className="p-3 rounded-lg border border-slate-800 bg-slate-900/30 text-left">
-                <div className="text-blue-400 text-lg mb-1">🧠</div>
-                <div className="text-white text-sm font-medium">Claude Analysis</div>
-                <div className="text-slate-500 text-xs mt-0.5">
-                  Geopolitical + technical reasoning
-                </div>
-              </div>
-              <div className="p-3 rounded-lg border border-slate-800 bg-slate-900/30 text-left">
-                <div className="text-green-400 text-lg mb-1">🛡️</div>
-                <div className="text-white text-sm font-medium">Spending Policy</div>
-                <div className="text-slate-500 text-xs mt-0.5">
-                  OWS-enforced $2/day cap
-                </div>
-              </div>
-            </div>
 
             {/* Suggestion buttons */}
             <div className="flex flex-wrap justify-center gap-2">
@@ -312,9 +286,20 @@ export default function OilShockArbitrageur() {
                 <button
                   key={s.label}
                   onClick={() => handleSuggestion(s.prompt)}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-amber-800/40 bg-amber-950/20 text-amber-300 text-sm hover:bg-amber-950/40 hover:border-amber-700/60 transition-colors"
+                  className="px-4 py-2.5 rounded font-medium text-[13px] border transition-all duration-150"
+                  style={{
+                    borderColor: 'rgba(255, 255, 255, 0.08)',
+                    color: 'oklch(0.68 0.008 260)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    e.currentTarget.style.color = 'white';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                    e.currentTarget.style.color = 'oklch(0.68 0.008 260)';
+                  }}
                 >
-                  <span>{s.icon}</span>
                   {s.label}
                 </button>
               ))}
@@ -324,7 +309,7 @@ export default function OilShockArbitrageur() {
 
         {/* Messages */}
         <Conversation className="flex-1 min-h-0">
-          <ConversationContent>
+          <ConversationContent className="max-w-3xl mx-auto">
             {messages.map((message) => (
               <Message from={message.role} key={message.id}>
                 <MessageContent>
@@ -374,9 +359,12 @@ export default function OilShockArbitrageur() {
             ))}
             {status === "submitted" && <Loader />}
             {status === "error" && (
-              <div className="text-red-400 text-sm p-3 rounded border border-red-900/40 bg-red-950/20 font-mono">
-                ❌ Agent error — check console and verify ANTHROPIC_API_KEY +
-                SOLANA_PRIVATE_KEY are set
+              <div className="text-sm p-3 rounded font-mono" style={{
+                color: 'oklch(0.58 0.16 25)',
+                borderLeft: '4px solid oklch(0.58 0.16 25)',
+                backgroundColor: 'oklch(0.10 0.008 260)'
+              }}>
+                Agent error — check console and verify OPENROUTER_API_KEY + SOLANA_PRIVATE_KEY are set
               </div>
             )}
           </ConversationContent>
@@ -384,22 +372,24 @@ export default function OilShockArbitrageur() {
         </Conversation>
 
         {/* Input */}
-        <PromptInput onSubmit={handleSubmit} className="mt-3">
-          <PromptInputTextarea
-            placeholder="Ask OilShock Arbitrageur to run a trading cycle..."
-            onChange={(e) => setInput(e.target.value)}
-            value={input}
-            ref={(ref) => {
-              if (ref) ref.focus();
-            }}
-          />
-          <PromptInputToolbar>
-            <div className="text-xs text-slate-600 font-mono">
-              Claude Sonnet · Solana mainnet
-            </div>
-            <PromptInputSubmit disabled={!input} status={status} />
-          </PromptInputToolbar>
-        </PromptInput>
+        <div className="max-w-3xl mx-auto w-full border-t" style={{ borderColor: 'rgba(255, 255, 255, 0.05)' }}>
+          <PromptInput onSubmit={handleSubmit} className="mt-3">
+            <PromptInputTextarea
+              placeholder="Ask OilShock Arbitrageur to run a trading cycle..."
+              onChange={(e) => setInput(e.target.value)}
+              value={input}
+              ref={(ref) => {
+                if (ref) ref.focus();
+              }}
+            />
+            <PromptInputToolbar>
+              <div className="font-mono text-[11px]" style={{ color: 'oklch(0.52 0.008 260)' }}>
+                Claude Sonnet · Solana mainnet
+              </div>
+              <PromptInputSubmit disabled={!input} status={status} />
+            </PromptInputToolbar>
+          </PromptInput>
+        </div>
       </div>
     </div>
   );
