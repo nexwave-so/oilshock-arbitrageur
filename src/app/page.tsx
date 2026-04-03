@@ -83,17 +83,15 @@ export default function OilShockArbitrageur() {
     },
   });
 
-  // Count fetch_oil_signals tool calls to track spend
+  // Count completed fetch_oil_signals calls to track spend.
+  // AI SDK v5: inline tool parts use type "tool-<toolName>" and state "output-available".
   useEffect(() => {
     let count = 0;
     for (const msg of messages) {
       for (const part of msg.parts) {
         if (
-          (part.type === "dynamic-tool" || part.type.startsWith("tool-")) &&
-          // @ts-expect-error
-          part.toolName === "fetch_oil_signals" &&
-          // @ts-expect-error
-          part.state === "result"
+          part.type === "tool-fetch_oil_signals" &&
+          (part as any).state === "output-available"
         ) {
           count++;
         }

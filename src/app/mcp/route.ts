@@ -1,20 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getOrCreateSellerAccount, getSolanaNetwork } from "@/lib/solana-accounts";
+import { getOrCreatePurchaserAccount, getSolanaNetwork } from "@/lib/solana-accounts";
 
-const sellerAccount = await getOrCreateSellerAccount();
+const SPENDING_POLICY = {
+  id: "oilshock-arbitrageur",
+  name: "Restricted Agent Spending",
+  rules: [
+    {
+      type: "allowed_chains",
+      chain_ids: ["solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"],
+    },
+    {
+      type: "spending_limits",
+      max_amount_usdc: "2.00",
+      period: "daily",
+    },
+  ],
+  action: "deny",
+};
 
-// Simple MCP server implementation for Solana
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   return NextResponse.json({
     jsonrpc: "2.0",
     result: {
       protocolVersion: "2024-11-05",
-      capabilities: {
-        tools: {},
-      },
+      capabilities: { tools: {} },
       serverInfo: {
-        name: "test-mcp-solana",
-        version: "0.0.1",
+        name: "oilshock-arbitrageur-mcp",
+        version: "1.0.0",
       },
     },
   });
@@ -23,7 +35,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    
+
     if (body.method === "tools/list") {
       return NextResponse.json({
         jsonrpc: "2.0",
@@ -31,118 +43,107 @@ export async function POST(request: NextRequest) {
         result: {
           tools: [
             {
-              name: "get_random_number",
-              description: "Get a random number between two numbers",
-              inputSchema: {
-                type: "object",
-                properties: {
-                  min: { type: "integer" },
-                  max: { type: "integer" },
-                },
-                required: ["min", "max"],
-              },
-            },
-            {
-              name: "add",
-              description: "Add two numbers",
-              inputSchema: {
-                type: "object",
-                properties: {
-                  a: { type: "integer" },
-                  b: { type: "integer" },
-                },
-                required: ["a", "b"],
-              },
-            },
-            {
-              name: "hello-remote",
-              description: "Receive a greeting",
-              inputSchema: {
-                type: "object",
-                properties: {
-                  name: { type: "string" },
-                },
-                required: ["name"],
-              },
-            },
-            {
-              name: "solana-account-info",
-              description: "Get Solana account information",
+              name: "fetch_nexwave_signals",
+              description:
+                "Describes the Nexwave x402 signal endpoint. Returns the payment requirements and data schema for the energy perp signal feed (WTI, Brent Crude, Natural Gas). The live agent uses this endpoint with wrapFetchWithPayment, paying $0.001 USDC on Solana mainnet per call.",
               inputSchema: {
                 type: "object",
                 properties: {},
               },
             },
             {
-              name: "test-x402-payment",
-              description: "Test x402 payment functionality with Solana",
+              name: "get_spending_policy",
+              description:
+                "Returns the OWS-style spending policy governing this agent. Defines allowed chains, daily USDC spending cap, and default deny action.",
               inputSchema: {
                 type: "object",
-                properties: {
-                  amount: { type: "number", description: "Payment amount in USDC" },
-                },
-                required: ["amount"],
+                properties: {},
+              },
+            },
+            {
+              name: "get_agent_wallet_info",
+              description:
+                "Returns the agent's Solana public key, network, and USDC asset address. The agent wallet holds mainnet USDC used for x402 micropayments.",
+              inputSchema: {
+                type: "object",
+                properties: {},
               },
             },
           ],
         },
       });
     }
-    
+
     if (body.method === "tools/call") {
-      const { name, arguments: args } = body.params;
-      
+      const { name } = body.params;
       let result;
+
       switch (name) {
-        case "get_random_number":
-          const randomNumber = Math.floor(Math.random() * (args.max - args.min + 1)) + args.min;
-          result = { content: [{ type: "text", text: `Random number: ${randomNumber}` }] };
-          break;
-          
-        case "add":
-          const sum = args.a + args.b;
-          result = { content: [{ type: "text", text: `Result: ${sum}` }] };
-          break;
-          
-        case "hello-remote":
-          result = { content: [{ type: "text", text: `Hello ${args.name}` }] };
-          break;
-          
-        case "solana-account-info":
+        case "fetch_nexwave_signals":
           result = {
             content: [
               {
                 type: "text",
-                text: `Solana Account: ${sellerAccount.publicKey.toString()}\nNetwork: ${getSolanaNetwork()}`,
+                text: JSON.stringify(
+                  {
+                    endpoint: "https://nexwave.so/api/signals",
+                    method: "GET",
+                    description:
+                      "Perp market signals — energy (Brent Crude, WTI, Natural Gas) + crypto top 50. Mark price, 24h change, volume, open interest, and funding rates. Refreshes every 15 seconds.",
+                    x402_payment: {
+                      scheme: "exact",
+                      network: "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp",
+                      amount: "1000",
+                      asset: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                      payTo: "7RPNsA1PotVJhaAnKcBoydNgbx7YsN9kH8VBJa2g8EW9",
+                      maxTimeoutSeconds: 300,
+                    },
+                    facilitator: "https://facilitator.payai.network",
+                    cost_usd: "$0.001 per call",
+                  },
+                  null,
+                  2
+                ),
               },
             ],
           };
           break;
-          
-        case "test-x402-payment":
-          try {
-            const { createSolanaSigner } = await import("@/lib/solana-accounts");
-            const signer = await createSolanaSigner();
-            result = {
-              content: [
-                {
-                  type: "text",
-                  text: `✅ x402 Solana integration working!\nPayment amount: $${args.amount} USDC\nSigner created successfully\nNetwork: ${getSolanaNetwork()}\nReady for payments!`,
-                },
-              ],
-            };
-          } catch (error) {
-            result = {
-              content: [
-                {
-                  type: "text",
-                  text: `❌ x402 Solana integration error: ${error instanceof Error ? error.message : 'Unknown error'}`,
-                },
-              ],
-            };
-          }
+
+        case "get_spending_policy":
+          result = {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify(SPENDING_POLICY, null, 2),
+              },
+            ],
+          };
           break;
-          
+
+        case "get_agent_wallet_info": {
+          const account = await getOrCreatePurchaserAccount();
+          const network = getSolanaNetwork();
+          result = {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify(
+                  {
+                    public_key: account.publicKey.toString(),
+                    network,
+                    usdc_mint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                    usdc_decimals: 6,
+                    note: "Fund this wallet with mainnet USDC. Each signal fetch costs 1000 base units ($0.001).",
+                  },
+                  null,
+                  2
+                ),
+              },
+            ],
+          };
+          break;
+        }
+
         default:
           return NextResponse.json({
             jsonrpc: "2.0",
@@ -150,14 +151,14 @@ export async function POST(request: NextRequest) {
             error: { code: -32601, message: "Method not found" },
           });
       }
-      
+
       return NextResponse.json({
         jsonrpc: "2.0",
         id: body.id,
         result,
       });
     }
-    
+
     return NextResponse.json({
       jsonrpc: "2.0",
       id: body.id,

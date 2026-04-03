@@ -45,3 +45,6 @@ next-env.d.ts
 # xmcp
 .xmcp
 xmcp-env.d.ts
+
+# turbo cache
+.turbo

@@ -3,7 +3,6 @@ import { tool } from "ai";
 import z from "zod";
 import { anthropic } from "@ai-sdk/anthropic";
 import { getOrCreatePurchaserAccount, createSolanaSigner, getSolanaNetwork } from "@/lib/solana-accounts";
-import { env } from "@/lib/env";
 
 export const maxDuration = 60;
 
