@@ -4,6 +4,8 @@
 
 **🎯 [View Hackathon Presentation](https://oilshock-arbitrageur.vercel.app/ows-hackathon-presentation)** ← _Arrow keys to navigate_
 
+**Agent Wallet**: [`HXUP3Upm31CUYwzuB2jDvd1NYVkgpsxqiBv7ekqcB9V1`](https://solscan.io/account/HXUP3Upm31CUYwzuB2jDvd1NYVkgpsxqiBv7ekqcB9V1) (Solana Mainnet)
+
 Built for the **Agent Wallet Hackathon** (6 hours). Forked from [`x402-ai-Solana`](https://github.com/N-45div/x402-ai-Solana).
 
 ---
