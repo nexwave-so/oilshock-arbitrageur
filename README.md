@@ -2,6 +2,8 @@
 
 > Autonomous AI agent that pays for live oil/energy market signals via x402 micropayments on Solana mainnet, reasons about geopolitical + price data using Claude, and executes prediction market trades — governed by a spending policy.
 
+**🎯 [View Hackathon Presentation](https://oilshock-arbitrageur.vercel.app/ows-hackathon-presentation)** ← _Arrow keys to navigate_
+
 Built for the **Agent Wallet Hackathon** (6 hours). Forked from [`x402-ai-Solana`](https://github.com/N-45div/x402-ai-Solana).
 
 ---
