@@ -35,16 +35,16 @@ export default function RootLayout({
             <div className="w-full px-6 flex items-center justify-between">
               {/* Wordmark */}
               <div className="flex items-center">
-                <span className="text-[17px] font-bold tracking-[-0.02em] text-white">
+                <span className="text-[20px] font-bold tracking-[-0.02em] text-white">
                   OilShock
                 </span>
-                <span className="text-[17px] font-normal ml-1.5" style={{ color: 'oklch(0.78 0.12 75)' }}>
+                <span className="text-[20px] font-normal ml-2" style={{ color: 'oklch(0.78 0.12 75)' }}>
                   Arbitrageur
                 </span>
               </div>
 
               {/* Status row */}
-              <div className="hidden sm:flex items-center gap-2.5 font-mono text-[11px]" style={{ color: 'oklch(0.52 0.008 260)' }}>
+              <div className="hidden sm:flex items-center gap-2.5 font-mono text-[12px]" style={{ color: 'oklch(0.52 0.008 260)' }}>
                 <span className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'oklch(0.62 0.14 180)' }} />
                   <span>Mainnet</span>

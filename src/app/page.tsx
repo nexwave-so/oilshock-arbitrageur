@@ -165,26 +165,26 @@ export default function OilShockArbitrageur() {
       <aside className="hidden lg:flex flex-col w-72 border-r shrink-0 p-6 gap-8" style={{ borderColor: 'oklch(0.22 0.01 260 / 30%)', backgroundColor: 'oklch(0.09 0.008 260)' }}>
         {/* Spending Policy Card */}
         <div className="space-y-3">
-          <div className="font-mono text-[10px] uppercase tracking-wider" style={{ color: 'oklch(0.52 0.008 260)' }}>
+          <div className="font-mono text-[11px] uppercase tracking-wider" style={{ color: 'oklch(0.52 0.008 260)' }}>
             OWS Policy
           </div>
-          <dl className="space-y-2.5 font-mono text-[13px]">
+          <dl className="space-y-2.5 font-mono text-[14px]">
             <div className="flex justify-between">
-              <dt className="uppercase text-[10px]" style={{ color: 'oklch(0.52 0.008 260)' }}>POLICY</dt>
+              <dt className="uppercase text-[11px]" style={{ color: 'oklch(0.52 0.008 260)' }}>POLICY</dt>
               <dd className="text-white">{SPENDING_POLICY.id}</dd>
             </div>
             <div className="flex justify-between">
-              <dt className="uppercase text-[10px]" style={{ color: 'oklch(0.52 0.008 260)' }}>CHAIN</dt>
+              <dt className="uppercase text-[11px]" style={{ color: 'oklch(0.52 0.008 260)' }}>CHAIN</dt>
               <dd className="text-white truncate ml-3" title="solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp">
                 solana:5eykt...Kvdp
               </dd>
             </div>
             <div className="flex justify-between">
-              <dt className="uppercase text-[10px]" style={{ color: 'oklch(0.52 0.008 260)' }}>DAILY CAP</dt>
+              <dt className="uppercase text-[11px]" style={{ color: 'oklch(0.52 0.008 260)' }}>DAILY CAP</dt>
               <dd className="text-white">$2.00 USDC</dd>
             </div>
             <div className="flex justify-between">
-              <dt className="uppercase text-[10px]" style={{ color: 'oklch(0.52 0.008 260)' }}>ENFORCEMENT</dt>
+              <dt className="uppercase text-[11px]" style={{ color: 'oklch(0.52 0.008 260)' }}>ENFORCEMENT</dt>
               <dd className="text-white">deny on violation</dd>
             </div>
           </dl>
@@ -192,14 +192,14 @@ export default function OilShockArbitrageur() {
 
         {/* Daily Budget Meter */}
         <div className="space-y-3">
-          <div className="font-mono text-[10px] uppercase tracking-wider" style={{ color: 'oklch(0.52 0.008 260)' }}>
+          <div className="font-mono text-[11px] uppercase tracking-wider" style={{ color: 'oklch(0.52 0.008 260)' }}>
             Daily Budget
           </div>
           <div className="flex items-baseline justify-between">
-            <span className="font-mono font-medium text-[28px] text-white">
+            <span className="font-mono font-medium text-[32px] text-white">
               ${dailySpend.toFixed(3)}
             </span>
-            <span className="font-mono text-[12px]" style={{ color: 'oklch(0.52 0.008 260)' }}>
+            <span className="font-mono text-[13px]" style={{ color: 'oklch(0.52 0.008 260)' }}>
               of ${DAILY_LIMIT_USDC.toFixed(2)}
             </span>
           </div>
@@ -216,7 +216,7 @@ export default function OilShockArbitrageur() {
               }}
             />
           </div>
-          <div className="font-mono text-[11px]" style={{ color: 'oklch(0.42 0.008 260)' }}>
+          <div className="font-mono text-[12px]" style={{ color: 'oklch(0.42 0.008 260)' }}>
             {Math.floor(dailySpend / COST_PER_SIGNAL)} signals · $0.001 each
           </div>
         </div>
@@ -225,7 +225,7 @@ export default function OilShockArbitrageur() {
         <div className="space-y-3">
           <button
             onClick={handlePolicyTest}
-            className="w-full py-2.5 px-3 rounded border font-mono text-[12px] transition-all duration-150"
+            className="w-full py-2.5 px-3 rounded border font-mono text-[13px] transition-all duration-150"
             style={{
               borderColor: 'rgba(255, 255, 255, 0.08)',
               borderStyle: 'dashed',
@@ -243,7 +243,7 @@ export default function OilShockArbitrageur() {
             Test $5.00 overspend
           </button>
           {policyTestMsg && (
-            <div className="p-3 font-mono text-[11px] text-white" style={{
+            <div className="p-3 font-mono text-[12px] text-white" style={{
               borderLeft: '4px solid oklch(0.58 0.16 25)',
               backgroundColor: 'oklch(0.10 0.008 260)'
             }}>
@@ -253,7 +253,7 @@ export default function OilShockArbitrageur() {
         </div>
 
         {/* x402 Info */}
-        <div className="mt-auto space-y-1 font-mono text-[11px]" style={{ color: 'oklch(0.42 0.008 260)' }}>
+        <div className="mt-auto space-y-1 font-mono text-[12px]" style={{ color: 'oklch(0.42 0.008 260)' }}>
           <div>nexwave.so/api/signals</div>
           <div>USDC · Solana · $0.001/call</div>
           <div>facilitator: payai.network</div>
@@ -272,11 +272,11 @@ export default function OilShockArbitrageur() {
         {/* Empty state */}
         {messages.length === 0 && (
           <div className="mb-6 text-center pt-16">
-            <h1 className="font-bold text-[48px] leading-none tracking-[-0.03em] mb-1">
+            <h1 className="font-bold text-[56px] leading-none tracking-[-0.03em] mb-1">
               <div className="text-white">OilShock</div>
               <div style={{ color: 'oklch(0.78 0.12 75)' }}>Arbitrageur</div>
             </h1>
-            <p className="text-[15px] mt-6 mb-8" style={{ color: 'oklch(0.52 0.008 260)' }}>
+            <p className="text-[16px] mt-6 mb-8" style={{ color: 'oklch(0.52 0.008 260)' }}>
               Autonomous energy market agent · x402 · OWS · Solana mainnet
             </p>
 
@@ -286,7 +286,7 @@ export default function OilShockArbitrageur() {
                 <button
                   key={s.label}
                   onClick={() => handleSuggestion(s.prompt)}
-                  className="px-4 py-2.5 rounded font-medium text-[13px] border transition-all duration-150"
+                  className="px-4 py-2.5 rounded font-medium text-[14px] border transition-all duration-150"
                   style={{
                     borderColor: 'rgba(255, 255, 255, 0.08)',
                     color: 'oklch(0.68 0.008 260)'
@@ -359,7 +359,7 @@ export default function OilShockArbitrageur() {
             ))}
             {status === "submitted" && <Loader />}
             {status === "error" && (
-              <div className="text-sm p-3 rounded font-mono" style={{
+              <div className="text-[13px] p-3 rounded font-mono" style={{
                 color: 'oklch(0.58 0.16 25)',
                 borderLeft: '4px solid oklch(0.58 0.16 25)',
                 backgroundColor: 'oklch(0.10 0.008 260)'
@@ -383,7 +383,7 @@ export default function OilShockArbitrageur() {
               }}
             />
             <PromptInputToolbar>
-              <div className="font-mono text-[11px]" style={{ color: 'oklch(0.52 0.008 260)' }}>
+              <div className="font-mono text-[12px]" style={{ color: 'oklch(0.52 0.008 260)' }}>
                 Claude Sonnet · Solana mainnet
               </div>
               <PromptInputSubmit disabled={!input} status={status} />
